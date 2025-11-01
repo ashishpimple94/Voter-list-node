@@ -1,0 +1,39 @@
+// middleware/upload.js
+import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = 'uploads/';
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueFilename = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueFilename);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  console.log('File received:', file.originalname, file.mimetype);
+  if (file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
+      file.mimetype === 'application/vnd.ms-excel') {
+    cb(null, true);
+  } else {
+    cb(new Error('केवल Excel फाइलें (.xlsx, .xls) की अनुमति है'), false);
+  }
+};
+
+const upload = multer({ 
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB limit
+  }
+});
+
+export default upload;
