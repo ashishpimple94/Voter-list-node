@@ -3,4 +3,7 @@ node_modules/
 uploads/
 *.log
 .DS_Store
+# Large Excel files
+*.xlsx
+*.xls
 
