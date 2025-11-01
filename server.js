@@ -5,8 +5,10 @@ import fs from 'fs';
 import connectDB from './config/db.js';
 import voterRoutes from './routes/voterRoutes.js';
 
-// Load environment variables
-dotenv.config();
+// Load environment variables (only in development, production uses system env vars)
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 // Connect to MongoDB
 connectDB();

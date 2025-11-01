@@ -9,36 +9,39 @@ const connectDB = async () => {
       || process.env.DATABASE_URL;
     
     // Debug: Log available env vars (without sensitive data)
-    console.log('🔍 Environment Check:');
+    console.log('\n🔍 Environment Variables Check:');
+    console.log('  NODE_ENV:', process.env.NODE_ENV || 'not set');
     console.log('  MONGODB_URI exists:', !!process.env.MONGODB_URI);
     console.log('  MONGO_URL exists:', !!process.env.MONGO_URL);
     console.log('  MONGODB_URL exists:', !!process.env.MONGODB_URL);
     console.log('  DATABASE_URL exists:', !!process.env.DATABASE_URL);
     
-    if (!mongoURI) {
-      console.error('\n❌ ERROR: MongoDB URI is not defined!');
-      console.error('\n📋 Please set one of these environment variables:');
-      console.error('   - MONGODB_URI (recommended)');
-      console.error('   - MONGO_URL');
-      console.error('   - MONGODB_URL');
-      console.error('   - DATABASE_URL');
-      console.error('\n💡 For Render:');
-      console.error('   1. Go to Render Dashboard → Your Service');
-      console.error('   2. Click "Environment" tab');
-      console.error('   3. Click "Add Environment Variable"');
-      console.error('   4. Fill form:');
-      console.error('      Key: MONGODB_URI');
-      console.error('      Value: mongodb+srv://username:password@cluster.mongodb.net/database-name');
-      console.error('   5. Click "Save Changes"');
-      console.error('\n📖 Example connection string:');
-      console.error('   mongodb+srv://admin:voterlist@cluster0.ezzkjmw.mongodb.net/voter-db?retryWrites=true&w=majority');
+    // Critical check: mongoURI must be defined and a string
+    if (!mongoURI || typeof mongoURI !== 'string') {
+      console.error('\n❌ CRITICAL ERROR: MongoDB URI is undefined or not a string!');
+      console.error('   Type received:', typeof mongoURI);
+      console.error('   Value:', mongoURI);
+      console.error('\n📋 Please set MONGODB_URI environment variable in Render:');
+      console.error('\n🚀 RENDER SETUP STEPS:');
+      console.error('   1. Go to: https://dashboard.render.com');
+      console.error('   2. Select your service/application');
+      console.error('   3. Click "Environment" tab (left sidebar)');
+      console.error('   4. Click "Add Environment Variable"');
+      console.error('   5. Fill the form:');
+      console.error('      Key:   MONGODB_URI');
+      console.error('      Value: mongodb+srv://voterlist1:ashishp1212@cluster0.ezzkjmw.mongodb.net/voter-db?retryWrites=true&w=majority');
+      console.error('   6. Click "Save Changes"');
+      console.error('   7. Wait for redeploy (automatic)');
+      console.error('\n📖 Required Connection String:');
+      console.error('   mongodb+srv://voterlist1:ashishp1212@cluster0.ezzkjmw.mongodb.net/voter-db?retryWrites=true&w=majority');
+      console.error('\n⚠️  Make sure variable name is exactly: MONGODB_URI (case-sensitive)');
       process.exit(1);
     }
     
     // Validate connection string format
-    if (typeof mongoURI !== 'string' || mongoURI.trim() === '') {
-      console.error('❌ ERROR: MongoDB URI must be a non-empty string!');
-      console.error('Current value type:', typeof mongoURI);
+    if (mongoURI.trim() === '') {
+      console.error('❌ ERROR: MongoDB URI is empty string!');
+      console.error('Please set a valid MONGODB_URI in Render Environment variables.');
       process.exit(1);
     }
     
