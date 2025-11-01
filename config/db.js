@@ -22,12 +22,14 @@ const connectDB = async () => {
       console.error('   - MONGO_URL');
       console.error('   - MONGODB_URL');
       console.error('   - DATABASE_URL');
-      console.error('\n💡 For Railway:');
-      console.error('   1. Go to Railway Dashboard → Your Project');
-      console.error('   2. Click "Variables" tab');
-      console.error('   3. Add new variable:');
+      console.error('\n💡 For Render:');
+      console.error('   1. Go to Render Dashboard → Your Service');
+      console.error('   2. Click "Environment" tab');
+      console.error('   3. Click "Add Environment Variable"');
+      console.error('   4. Fill form:');
       console.error('      Key: MONGODB_URI');
       console.error('      Value: mongodb+srv://username:password@cluster.mongodb.net/database-name');
+      console.error('   5. Click "Save Changes"');
       console.error('\n📖 Example connection string:');
       console.error('   mongodb+srv://admin:voterlist@cluster0.ezzkjmw.mongodb.net/voter-db?retryWrites=true&w=majority');
       process.exit(1);
